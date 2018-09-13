@@ -1,0 +1,53 @@
+{# temp/auth/login.html #}
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Log In{% endblock %}</h1>
+{% endblock %}
+
+{% block head %}
+{{super()}}
+
+<style type="text/css">
+  .test { 
+    padding-left: 20%;
+    padding-right: 20%;
+    color: #336699; 
+  }
+</style>
+{%- endblock %}
+{% block script %}
+  <script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script>
+  
+      function addSubmit(ev) {
+        ev.preventDefault();
+        $.ajax({
+          method: 'POST',
+          url: {{ url_for('add')|tojson }},
+          data: $(this).serialize()
+        }).done(addShow);
+      }
+  
+      function addShow(data) {
+        $('#result').text(data.result);
+      }
+  
+      $('#calc').on('submit', addSubmit);
+      
+    
+  </script>
+{% endblock %}
+{% block content %}
+  <form 
+  class = "test"
+  method="post">
+    <label for="username">Username</label>
+    <input name="username" id="username" required>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required>
+    <input type="submit" value="Log In">
+  </form>
+{% endblock %}
